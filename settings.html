@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings – MindPing</title>
+  <script>
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark')
+    }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    .mood-btn {
+      font-size: 1.5rem;
+      padding: 0.5rem;
+      border-radius: 0.75rem;
+      background: #f3f4f6;
+    }
+    .dark .mood-btn {
+      background: #1f2937;
+    }
+    .mood-btn.active {
+      outline: 2px solid black;
+    }
+    .dark .mood-btn.active {
+      outline: 2px solid white;
+    }
+  </style></head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans">
+
+  <!-- HEADER (reuse same header code here) -->
+  <header class="w-full border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+  <!-- Logo -->
+  <h1
+    class="text-xl font-semibold tracking-tight cursor-pointer"
+    onclick="window.location.href='/'">
+    MindPing
+  </h1>
+  
+      <button id="themeToggle"
+    class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-3 py-2 rounded-xl text-sm shadow-sm">
+    🌙
+  </button>
+
+
+  <!-- Desktop Nav -->
+  <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+    <a href="/today.html" class="hover:underline">Today</a>
+    <a href="/history.html" class="hover:underline">History</a>
+    <a href="/settings.html" class="hover:underline">Settings</a>
+
+    <button
+      id="desktopUpgradeBtn"
+      class="bg-black text-white px-4 py-2 rounded-xl text-sm hidden">
+      Upgrade
+    </button>
+
+    <span
+      id="proBadge"
+      class="hidden text-xs font-medium bg-black text-white px-3 py-1 rounded-full">
+      PRO
+    </span>
+  </nav>
+
+  <!-- Mobile Hamburger -->
+  <button id="menuBtn" class="md:hidden">
+    ☰
+  </button>
+</header>
+<div
+  id="mobileNav"
+  class="hidden fixed inset-0 z-50 md:hidden ">
+
+  <div class="bg-white w-full p-6 space-y-4">
+    <button id="closeMenuBtn" class="text-right w-full text-sm text-gray-500">
+      Close ✕
+    </button>
+
+    <nav class="space-y-3 text-lg bg-orange-700 rounded">
+      <a href="/today.html" class="block">Today</a>
+      <a href="/history.html" class="block">History</a>
+      <a href="/settings.html" class="block">Settings</a>
+
+      <button
+        id="mobileUpgradeBtn"
+        class="w-full bg-black text-white py-3 rounded-xl font-medium">
+        Upgrade to Pro
+      </button>
+    </nav>
+  </div>
+</div>
+
+  <main class="max-w-xl mx-auto px-4 py-6 space-y-6">
+    <h2 class="text-xl font-semibold">Settings</h2>
+
+    <!-- Pro Status -->
+    <div class="bg-white rounded-xl p-4 border space-y-2">
+      <h3 class="font-medium text-gray-400">Account</h3>
+      <p id="proStatus" class="text-sm text-gray-600"></p>
+
+      <button
+        id="settingsUpgradeBtn"
+        class="bg-black text-white px-4 py-2 rounded-xl text-sm hidden">
+        Upgrade to Pro
+      </button>
+    </div>
+
+    <!-- Data -->
+    <div class="bg-white rounded-xl p-4 border space-y-2">
+      <h3 class="font-medium text-gray-400">Your Data</h3>
+
+      <button
+        id="exportCSVBtn"
+        class="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm">
+        Export Journal as CSV
+      </button>
+    </div>
+
+    <!-- About -->
+    <div class="bg-white rounded-xl p-4 border space-y-1 text-sm text-gray-500">
+      <p>MindPing</p>
+      <p>Version 0.1</p>
+      <p>Built for clarity, one prompt at a time.</p>
+    </div>
+  </main>
+
+  <script>
+    const isPro = localStorage.getItem("mindping_pro") === "true";
+    const proStatus = document.getElementById("proStatus");
+    const upgradeBtn = document.getElementById("settingsUpgradeBtn");
+
+    if (isPro) {
+      proStatus.textContent = "You are a Pro user 🎉";
+    } else {
+      proStatus.textContent = "Free plan (limited entries)";
+      upgradeBtn.classList.remove("hidden");
+    }
+
+    upgradeBtn?.addEventListener("click", async () => {
+      const res = await fetch("/create-checkout-session", { method: "POST" });
+      const data = await res.json();
+      window.location.href = data.url;
+    });
+    
+    const proBadge = document.getElementById("proBadge");
+
+if (localStorage.getItem("mindping_pro") === "true") {
+  proBadge.classList.remove("hidden");
+}
+
+//mobile nav
+const menuBtn = document.getElementById("menuBtn");
+const closeMenuBtn = document.getElementById("closeMenuBtn");
+const mobileNav = document.getElementById("mobileNav");
+const mobileUpgradeBtn = document.getElementById("mobileUpgradeBtn");
+
+
+
+// Show PRO badge
+if (isPro) {
+  proBadge.classList.remove("hidden");
+  mobileUpgradeBtn?.remove(); // remove CTA for Pro users
+}
+
+// Open menu
+menuBtn.onclick = () => {
+  mobileNav.classList.remove("hidden");
+};
+
+// Close menu
+closeMenuBtn.onclick = () => {
+  mobileNav.classList.add("hidden");
+};
+
+// Upgrade CTA
+mobileUpgradeBtn?.addEventListener("click", async () => {
+  const res = await fetch("/create-checkout-session", {
+    method: "POST",
+  });
+
+  const data = await res.json();
+  window.location.href = data.url;
+});
+
+//desktop nav
+
+
+const desktopUpgradeBtn = document.getElementById("desktopUpgradeBtn");
+
+if (isPro) {
+  proBadge?.classList.remove("hidden");
+} else {
+  desktopUpgradeBtn?.classList.remove("hidden");
+}
+
+desktopUpgradeBtn?.addEventListener("click", async () => {
+  const res = await fetch("/create-checkout-session", { method: "POST" });
+  const data = await res.json();
+  window.location.href = data.url;
+});
+
+//-----theme------
+const toggleBtn = document.getElementById("themeToggle");
+if (toggleBtn) {
+  toggleBtn.onclick = () => {
+    const isDark = document.documentElement.classList.toggle("dark");
+    localStorage.theme = isDark ? "dark" : "light";
+    toggleBtn.textContent = isDark ? "☀️" : "🌙";
+  };
+  toggleBtn.textContent =
+    document.documentElement.classList.contains("dark") ? "☀️" : "🌙";
+}
+
+  </script>
+  
+</body>
+</html>
