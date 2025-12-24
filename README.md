@@ -1,2 +1,2 @@
 # Mindping
-Mind relaxing app
+Mind relaxing application 
