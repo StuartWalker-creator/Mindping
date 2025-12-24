@@ -70,7 +70,7 @@ function showPaywall() {
 
   document.getElementById("closePaywall").onclick = () => modal.remove();
 document.getElementById("upgradeBtn").onclick = async () => {
-  const res = await fetch("/create-checkout-session", {
+  const res = await fetch("https://mindping-3dor.onrender.com/create-checkout-session", {
     method: "POST",
   });
   const data = await res.json();
@@ -196,7 +196,10 @@ setTimeout(() => overlay.classList.remove("opacity-0"), 10);
 
   // Upgrade button
   document.getElementById("upgradeCSVBtn").onclick = async () => {
-    const res = await fetch("/create-checkout-session", { method: "POST" });
+  const res = await fetch("https://mindping-3dor.onrender.com/create-checkout-session", {
+    method: "POST"
+});
+  
     const data = await res.json();
     window.location.href = data.url;
   };
@@ -271,8 +274,8 @@ closeMenuBtn.onclick = () => {
 
 // Upgrade CTA
 mobileUpgradeBtn?.addEventListener("click", async () => {
-  const res = await fetch("/create-checkout-session", {
-    method: "POST",
+  const res = await fetch(`https://mindping-3dor.onrender.com/create-checkout-session`, {
+    method:"POST"
   });
 
   const data = await res.json();
@@ -291,7 +294,7 @@ if (isPro) {
 }
 
 desktopUpgradeBtn?.addEventListener("click", async () => {
-  const res = await fetch("/create-checkout-session", { method: "POST" });
+  const res = await fetch("https://mindping-3dor.onrender.com/create-checkout-session", { method: "POST" });
   const data = await res.json();
   window.location.href = data.url;
 });
