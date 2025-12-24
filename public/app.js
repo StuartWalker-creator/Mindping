@@ -1,3 +1,4 @@
+localStorage.setItem("hasVisited","true")
 // ---------- Constants ----------
 const FREE_LIMIT = 7;
 const isPro = localStorage.getItem("mindping_pro") === "true";
@@ -56,7 +57,7 @@ function showPaywall() {
 
       <button id="upgradeBtn"
         class="w-full bg-black dark:bg-white text-white dark:text-black py-3 rounded-2xl font-medium hover:bg-gray-400 transition-colors">
-        Upgrade — $19 Lifetime
+        Upgrade — $5 Lifetime
       </button>
 
       <button id="closePaywall"
@@ -181,7 +182,7 @@ setTimeout(() => overlay.classList.remove("opacity-0"), 10);
         Exporting CSV is only available for Pro users.
       </p>
       <button id="upgradeCSVBtn" class="w-full bg-black text-white py-3 rounded-2xl font-medium">
-        Upgrade — $19 Lifetime
+        Upgrade — $5 Lifetime
       </button>
       <button id="closeOverlayBtn" class="text-sm text-gray-500 hover:underline">
         Cancel

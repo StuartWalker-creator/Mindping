@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MindPing</title>
-
+  <title>MindPing — Daily Mental Clarity</title>
+  
   <!-- Dark mode preload -->
   <script>
     if (
@@ -33,10 +33,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></head>
 
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans">
+<body class="h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+
+<!-- ================= HEADER ================= -->
 <header class="w-full border-b border-gray-200 px-4 py-3 flex items-center justify-between">
   <!-- Logo -->
   <h1
@@ -75,6 +76,7 @@
     ☰
   </button>
 </header>
+
 <div
   id="mobileNav"
   class="hidden fixed inset-0 z-50 md:hidden ">
@@ -98,24 +100,180 @@
   </div>
 </div>
 
-  <main class="min-h-screen flex items-center justify-center px-4">
-    <div class="max-w-md text-center space-y-6">
-      <h1 class="text-3xl font-bold">One question a day.</h1>
-      <p class="text-gray-600 dark:text-gray-400">
-        Clear your mind in under two minutes.
-      </p>
+<!-- ================= HERO ================= -->
+<section class="max-w-3xl mx-auto px-6 py-20 text-center">
+  <h2 class="text-4xl font-bold mb-4">
+    One question a day.  
+    <br class="hidden sm:block" />
+    Clear your mind in minutes.
+  </h2>
 
-      <a href="today.html"
-         class="inline-block bg-black dark:bg-white text-white dark:text-black px-6 py-3 rounded-2xl font-medium transition hover:opacity-90">
-        Start Today’s Question
-      </a>
+  <p class="text-gray-600 dark:text-gray-400 text-lg mb-8">
+    MindPing helps you declutter your thoughts with a single daily reflection —
+    no pressure, no overwhelm.
+  </p>
 
-      <p class="text-xs text-gray-400">
-        Free for 7 days. Upgrade anytime.
+  <button id="primaryCTA"
+    class="bg-black dark:bg-white dark:text-black text-white px-6 py-3 rounded-xl text-lg hover:opacity-90 transition">
+    Start Free
+  </button>
+</section>
+
+<!-- ================= VALUE ================= -->
+<section class="bg-gray-50 dark:bg-gray-800 py-16 px-6">
+  <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-6 text-center">
+    <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl border dark:border-gray-700">
+      <h3 class="font-semibold mb-2">Daily Prompt</h3>
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+        One thoughtful question per day — that’s it.
       </p>
     </div>
-  </main>
 
-  <script src="app.js"></script>
+    <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl border dark:border-gray-700">
+      <h3 class="font-semibold mb-2">Mood Tracking</h3>
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+        Spot emotional patterns over time.
+      </p>
+    </div>
+
+    <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl border dark:border-gray-700">
+      <h3 class="font-semibold mb-2">Data Ownership</h3>
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+        Export your journal anytime (Pro).
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRICING ================= -->
+<section class="py-20 px-6 text-center">
+  <h3 class="text-2xl font-bold mb-6">Simple pricing</h3>
+
+  <div class="max-w-md mx-auto bg-white dark:bg-gray-900 p-8 rounded-2xl border dark:border-gray-700">
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Free forever with limits.  
+      Upgrade once, keep forever.
+    </p>
+
+    <p class="text-4xl font-bold mb-6">
+      $5 <span class="text-base font-normal text-gray-500">one-time</span>
+    </p>
+
+    <button onclick="location.href='settings.html'"
+      class="bg-black dark:bg-white dark:text-black text-white px-6 py-3 rounded-xl text-lg">
+      Upgrade to Pro
+    </button>
+
+    <p class="text-xs text-gray-500 mt-3">
+      Secure payments via Stripe
+    </p>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="text-center text-sm text-gray-500 py-8 border-t dark:border-gray-700">
+  © <span id="year"></span> MindPing
+</footer>
+
+<!-- ================= SCRIPT ================= -->
+
+<script>
+localStorage.setItem("hasVisited","true")
+  // ---- YEAR ----
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // ---- THEME ----
+  const themeToggle = document.getElementById("themeToggle");
+  const savedTheme = localStorage.getItem("theme") || "light";
+  document.documentElement.classList.toggle("dark", savedTheme === "dark");
+  themeToggle.textContent = savedTheme === "dark" ? "☀️" : "🌙";
+
+  themeToggle.onclick = () => {
+    const isDark = document.documentElement.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    themeToggle.textContent = isDark ? "☀️" : "🌙";
+  };
+
+
+  // ---- CTA LOGIC ----
+  const isPro = localStorage.getItem("mindping_pro") === "true";
+  const hasVisited = localStorage.getItem("mindping_visited") === "true";
+  const primaryCTA = document.getElementById("primaryCTA");
+  const upgradeBtn = document.getElementById("upgradeBtn");
+
+  if (isPro) {
+    primaryCTA.textContent = "Go to Journal";
+    primaryCTA.onclick = () => location.href = "today.html";
+    upgradeBtn.classList.add("hidden");
+  } 
+  else if (hasVisited) {
+    primaryCTA.textContent = "Open Journal";
+    primaryCTA.onclick = () => location.href = "today.html";
+  } 
+  else {
+    primaryCTA.textContent = "Start Free";
+    primaryCTA.onclick = () => {
+      localStorage.setItem("mindping_visited", "true");
+      location.href = "today.html";
+    };
+  }
+  //----PRO Bagde---
+const proBadge = document.getElementById("proBadge");
+
+if (localStorage.getItem("mindping_pro") === "true") {
+  proBadge.classList.remove("hidden");
+}
+
+//mobile nav
+const menuBtn = document.getElementById("menuBtn");
+const closeMenuBtn = document.getElementById("closeMenuBtn");
+const mobileNav = document.getElementById("mobileNav");
+const mobileUpgradeBtn = document.getElementById("mobileUpgradeBtn");
+
+
+
+// Show PRO badg
+if (isPro) {
+  proBadge.classList.remove("hidden");
+  mobileUpgradeBtn?.remove(); // remove CTA for Pro users
+}
+
+// Open menu
+menuBtn.onclick = () => {
+  mobileNav.classList.remove("hidden");
+};
+
+// Close menu
+closeMenuBtn.onclick = () => {
+  mobileNav.classList.add("hidden");
+};
+
+// Upgrade CTA
+mobileUpgradeBtn?.addEventListener("click", async () => {
+  const res = await fetch(`https://mindpingpro.onrender.com/create-checkout-session`, {
+    method:"POST"
+  });
+
+  const data = await res.json();
+  window.location.href = data.url;
+});
+
+//desktop nav
+
+
+const desktopUpgradeBtn = document.getElementById("desktopUpgradeBtn");
+
+if (isPro) {
+  proBadge?.classList.remove("hidden");
+} else {
+  desktopUpgradeBtn?.classList.remove("hidden");
+}
+
+desktopUpgradeBtn?.addEventListener("click", async () => {
+  const res = await fetch("https://mindpingpro.onrender.com/create-checkout-session", { method: "POST" });
+  const data = await res.json();
+  window.location.href = data.url;
+});
+</script>
 </body>
 </html>
