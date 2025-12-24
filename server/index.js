@@ -9,7 +9,7 @@ dotenv.config();
 
 const app = express();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 // ---------- Helpers ----------
 const PURCHASE_FILE = "./purchases.json";
