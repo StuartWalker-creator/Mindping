@@ -171,6 +171,44 @@ if (localStorage.getItem("mindping_pro") === "true") {
   proBadge.classList.remove("hidden");
 }
 
+function showProOverlay() {
+  const overlay = document.createElement("div");
+  overlay.id = "proOverlay";
+  overlay.className = `
+    fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4
+  `;
+  overlay.classList.add("transition-opacity", "duration-300", "opacity-0");
+setTimeout(() => overlay.classList.remove("opacity-0"), 10);
+
+  overlay.innerHTML = `
+    <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-sm w-full text-center space-y-4">
+      <h2 class="text-xl font-semibold">Pro Feature</h2>
+      <p class="text-gray-600 dark:text-gray-400 text-sm">
+        Exporting CSV is only available for Pro users.
+      </p>
+      <button id="upgradeCSVBtn" class="w-full bg-black text-white py-3 rounded-2xl font-medium">
+        Upgrade — $19 Lifetime
+      </button>
+      <button id="closeOverlayBtn" class="text-sm text-gray-500 hover:underline">
+        Cancel
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  // Close overlay
+  document.getElementById("closeOverlayBtn").onclick = () => overlay.remove();
+
+  // Upgrade button
+  document.getElementById("upgradeCSVBtn").onclick = async () => {
+    const res = await fetch("/create-checkout-session", { method: "POST" });
+    const data = await res.json();
+    window.location.href = data.url;
+  };
+}
+
+
 //----rxport csv logic
 if (document.getElementById("exportCSVBtn")) {
   
