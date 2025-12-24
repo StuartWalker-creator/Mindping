@@ -171,6 +171,55 @@ if (localStorage.getItem("mindping_pro") === "true") {
   proBadge.classList.remove("hidden");
 }
 
+//----rxport csv logic
+if (document.getElementById("exportCSVBtn")) {
+  
+const exportBtn = document.getElementById("exportCSVBtn")
+
+function exportToCSV(entries) {
+  if (!entries.length) {
+    alert("No entries to export!");
+    return;
+  }
+  
+  const header = ["Date", "Prompt", "Content"];
+  const rows = entries.map(e => [
+    `"${e.date}"`,
+    `"${e.prompt.replace(/"/g, '""')}"`,
+    `"${e.content.replace(/"/g, '""')}"`
+  ].join(","));
+  
+  const csvContent = [header.join(","), ...rows].join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  
+  // Create temporary <a>
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `mindping_journal_${Date.now()}.csv`;
+  
+  // Append to DOM
+  document.body.appendChild(link);
+  
+  // Trigger click
+  link.click();
+  console.log(link)
+  // Clean up
+  //document.body.removeChild(link);
+  URL.revokeObjectURL(link.href); // important to free memory
+}
+exportBtn.addEventListener("click", () => {
+  
+  const entries = JSON.parse(localStorage.getItem("mindping_entries") || "[]");
+
+  if (!isPro) {
+    showProOverlay();
+    return;
+  }
+
+  exportToCSV(entries);
+});
+}
+
 //mobile nav
 const menuBtn = document.getElementById("menuBtn");
 const closeMenuBtn = document.getElementById("closeMenuBtn");
