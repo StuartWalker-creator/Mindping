@@ -1,5 +1,6 @@
 import express from "express";
 import Stripe from "stripe";
+import cors from "cors";
 import fs from "fs";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
@@ -11,6 +12,7 @@ const app = express();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const PORT = process.env.PORT || 4000;
 
+app.use(cors())
 // ---------- Helpers ----------
 const PURCHASE_FILE = "./purchases.json";
 
