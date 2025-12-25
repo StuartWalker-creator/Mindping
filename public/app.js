@@ -71,11 +71,8 @@ function showPaywall() {
 
   document.getElementById("closePaywall").onclick = () => modal.remove();
 document.getElementById("upgradeBtn").onclick = async () => {
-  const res = await fetch("https://mindpingpro.onrender.com/create-checkout-session", {
-    method: "POST",
-  });
-  const data = await res.json();
-  window.location.href = data.url;
+  window.location.href="https://stuartwebdev.lemonsqueezy.com/checkout/buy/0c6eb784-f770-433e-b808-1f2a7c4a5421"
+
 };
   
 }
@@ -275,12 +272,8 @@ closeMenuBtn.onclick = () => {
 
 // Upgrade CTA
 mobileUpgradeBtn?.addEventListener("click", async () => {
-  const res = await fetch(`https://mindpingpro.onrender.com/create-checkout-session`, {
-    method:"POST"
-  });
+  window.location.href="https://stuartwebdev.lemonsqueezy.com/checkout/buy/0c6eb784-f770-433e-b808-1f2a7c4a5421"
 
-  const data = await res.json();
-  window.location.href = data.url;
 });
 
 //desktop nav
@@ -295,7 +288,5 @@ if (isPro) {
 }
 
 desktopUpgradeBtn?.addEventListener("click", async () => {
-  const res = await fetch("https://mindpingpro.onrender.com/create-checkout-session", { method: "POST" });
-  const data = await res.json();
-  window.location.href = data.url;
+  window.location.href="https://stuartwebdev.lemonsqueezy.com/checkout/buy/0c6eb784-f770-433e-b808-1f2a7c4a5421"
 });
