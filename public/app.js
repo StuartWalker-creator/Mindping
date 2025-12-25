@@ -194,12 +194,7 @@ setTimeout(() => overlay.classList.remove("opacity-0"), 10);
 
   // Upgrade button
   document.getElementById("upgradeCSVBtn").onclick = async () => {
-  const res = await fetch("https://mindpingpro.onrender.com/create-checkout-session", {
-    method: "POST"
-});
-  
-    const data = await res.json();
-    window.location.href = data.url;
+  window.location.href="https://stuartwebdev.lemonsqueezy.com/checkout/buy/0c6eb784-f770-433e-b808-1f2a7c4a5421"
   };
 }
 // ---------- History ----------
